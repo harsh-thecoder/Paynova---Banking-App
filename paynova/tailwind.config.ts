@@ -3,11 +3,11 @@ import type { Config } from "tailwindcss";
 const config = {
   darkMode: ["class"],
   content: [
-    "./pages/**/*.{ts,tsx}",
-    "./components/**/*.{ts,tsx}",
-    "./app/**/*.{ts,tsx}",
-    "./src/**/*.{ts,tsx}",
-    "./constants/**/*.{ts,tsx}",
+    "./pages/**/*.{html,js,ts,jsx,tsx}",
+    "./components/**/*.{js,ts,jsx,tsx}",
+    "./app/**/*.{js,ts,jsx,tsx}",
+    "./src/**/*.{js,ts,jsx,tsx}",
+    "./constants/**/*.{js,ts,jsx,tsx}",
   ],
   prefix: "",
   theme: {
@@ -19,6 +19,10 @@ const config = {
       },
     },
     extend: {
+      // Ensure rounded-lg is available by adding borderRadius to extend if needed
+      borderRadius: {
+        lg: '0.5rem',  // Explicitly defining rounded-lg
+      },
       colors: {
         fill: {
           1: "rgba(255, 255, 255, 0.10)",
@@ -103,7 +107,55 @@ const config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    // Custom plugin for text size classes
+    function({ addUtilities }) {
+      const newUtilities = {
+        '.text-10': {
+          fontSize: '10px',
+          lineHeight: '14px',
+        },
+        '.text-12': {
+          fontSize: '12px',
+          lineHeight: '16px',
+        },
+        '.text-14': {
+          fontSize: '14px',
+          lineHeight: '20px',
+        },
+        '.text-16': {
+          fontSize: '16px',
+          lineHeight: '24px',
+        },
+        '.text-18': {
+          fontSize: '18px',
+          lineHeight: '22px',
+        },
+        '.text-20': {
+          fontSize: '20px',
+          lineHeight: '24px',
+        },
+        '.text-24': {
+          fontSize: '24px',
+          lineHeight: '30px',
+        },
+        '.text-26': {
+          fontSize: '26px',
+          lineHeight: '32px',
+        },
+        '.text-30': {
+          fontSize: '30px',
+          lineHeight: '38px',
+        },
+        '.text-36': {
+          fontSize: '36px',
+          lineHeight: '44px',
+        },
+      }
+      addUtilities(newUtilities)
+    }
+  ],
 } satisfies Config;
 
 export default config;
