@@ -1,6 +1,7 @@
 import React from 'react'
 import HeaderBox from '@/components/HeaderBox'
 import TotalBalanceBox from '@/components/TotalBalanceBox';
+import '../../globals.css'
 
 const Home = () => {
   const LoggedIn = { firstName : "Harsh" };
@@ -18,8 +19,8 @@ const Home = () => {
 
              <TotalBalanceBox 
               accounts = {[]}
-              TotalBanks = {1}
-              TotalCurrentBalance = {1256.53}
+              totalBanks = {1}
+              totalCurrentBalance = {1256.53}
              />
 
           </header>
