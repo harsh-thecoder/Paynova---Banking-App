@@ -12,7 +12,7 @@ const MobileNav = ({ user } : MobileNavProps) => {
   return (
     <section>
         <Sheet>
-            <SheetTrigger>Open</SheetTrigger>
+            <SheetTrigger>MobileNav</SheetTrigger>
             <SheetContent>
                 <SheetHeader>
                 <SheetTitle>Are you absolutely sure?</SheetTitle>
