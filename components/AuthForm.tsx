@@ -48,6 +48,8 @@ const AuthForm = ({type} : {type : string}) => {
             // Sign Up with Appwrite and create plaid token
             if(type === 'sign-up') {
                  const newUser = await signUp(data);
+                 console.log('Signed up user:', newUser); // ✅ Add this
+
 
                  setUser(newUser);
             }
@@ -85,10 +87,10 @@ const AuthForm = ({type} : {type : string}) => {
                 <div className='flex flex-col gap-1 md:gap-3'>
                     <h1 className='text-24 lg:text-36 font-semibold text-gray-900'>
                         {user
-                        ? 'Link Account' 
-                        : type === 'sign-in'
-                         ? 'Sign In'
-                         : 'Sign Up'
+                            ? 'Link Account' 
+                            : type === 'sign-in'
+                            ? 'Sign In'
+                            : 'Sign Up'
                          }
 
                          <p className='text-16 font-normal text-gray-600'>
@@ -112,20 +114,20 @@ const AuthForm = ({type} : {type : string}) => {
                         <div className='flex gap-6'>
                             <CustomFormField 
                             control = {form.control}
-                            name = 'firstname' 
+                            name = 'firstName' 
                             label = 'First Name'
                             placeholder = 'Enter your first Name'
                             />
                             <CustomFormField 
                             control = {form.control}
-                            name = 'lastname' 
+                            name = 'lastName' 
                             label = 'Last Name'
                             placeholder = 'Enter your last Name'
                             />
                         </div>
                         <CustomFormField 
                         control = {form.control}
-                        name = 'address' 
+                        name = 'address1' 
                         label = 'Address'
                         placeholder = 'Enter your specific address'
                         />
@@ -152,7 +154,7 @@ const AuthForm = ({type} : {type : string}) => {
                         <div className='flex gap-6'>
                             <CustomFormField 
                             control = {form.control}
-                            name = 'dob' 
+                            name = 'dateOfBirth' 
                             label = 'Date of Birth'
                             placeholder = 'YYYY-MM-DD'
                             />

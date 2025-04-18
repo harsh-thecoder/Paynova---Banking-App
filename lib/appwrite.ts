@@ -28,6 +28,15 @@ export async function createAdminClient() {
     .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT!)
     .setKey(process.env.NEXT_APPWRITE_KEY!);
 
+    const endpoint = process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT;
+    const project = process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID;
+    const apiKey = process.env.APPWRITE_API_KEY;
+
+    if (!endpoint || !project || !apiKey) {
+      console.error("❌ Missing Appwrite environment variables", { endpoint, project, apiKey });
+      throw Error("Appwrite environment variables are not set.");
+    } 
+
   return {
     get account() {
       return new Account(client);
