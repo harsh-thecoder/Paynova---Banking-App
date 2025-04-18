@@ -5,7 +5,7 @@ import { Form } from 'react-hook-form'
 import { Control,FieldPath } from 'react-hook-form'
 import { authFormSchema } from '@/lib/utils'
 import { z } from 'zod'
-
+ 
 const formSchema = authFormSchema('sign-up');
 
 interface CustomFormField {
