@@ -3,7 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React, { useState } from 'react'
 
-import { z } from "zod"
+import { set, z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { Control } from 'react-hook-form'
@@ -21,8 +21,11 @@ import { Input } from "@/components/ui/input"
 import CustomFormField from './CustomFormField'
 import { authFormSchema } from '@/lib/utils'
 import { Loader2 } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { signIn, signUp } from '@/lib/actions/user.actions'
 
 const AuthForm = ({type} : {type : string}) => {
+    const router = useRouter();
     const [user, setUser] = useState(null)
     const [isloading, setIsloading] = useState(false)
 
@@ -38,12 +41,32 @@ const AuthForm = ({type} : {type : string}) => {
       })
      
       // 2. Define a submit handler.
-      function onSubmit(values: z.infer<typeof formSchema>) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
+      const onSubmit = async (data: z.infer<typeof formSchema>) => {
         setIsloading(true);
-        console.log(values);
-        setIsloading(false);
+        
+        try {
+            // Sign Up with Appwrite and create plaid token
+            if(type === 'sign-up') {
+                 const newUser = await signUp(data);
+
+                 setUser(newUser);
+            }
+
+            if(type === 'sign-in') {
+                // const response = await signIn({
+                //     email: data.email,
+                //     password: data.password, 
+                // })   
+                // if(response) router.push('/')
+            }
+
+
+
+        } catch (error) {
+            console.log(error);
+        } finally {
+           setIsloading(false);     
+        }
       } 
 
   return (
@@ -105,6 +128,12 @@ const AuthForm = ({type} : {type : string}) => {
                         name = 'address' 
                         label = 'Address'
                         placeholder = 'Enter your specific address'
+                        />
+                        <CustomFormField 
+                        control = {form.control}
+                        name = 'city' 
+                        label = 'City'
+                        placeholder = 'Example: Mumbai'
                         />
                         <div className='flex gap-6'>
                             <CustomFormField 
