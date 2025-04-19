@@ -23,6 +23,7 @@ import { authFormSchema } from '@/lib/utils'
 import { Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { getLoggedInUser, signIn, signUp } from '@/lib/actions/user.actions'
+import PlaidLink from './PlaidLink'
 
 const AuthForm = ({type} : {type : string}) => {
     const router = useRouter();
@@ -46,9 +47,23 @@ const AuthForm = ({type} : {type : string}) => {
         setIsloading(true);
         
         try {
+
+            
             // Sign Up with Appwrite and create plaid token
             if(type === 'sign-up') {
-                 const newUser = await signUp(data);
+                 const userData = {
+                    firstName: data.firstName!,
+                    lastName: data.lastName!,
+                    address1: data.address1!,
+                    city: data.city!,
+                    state: data.state!,
+                    postalCode: data.postalCode!,
+                    dateOfBirth: data.dateOfBirth!,
+                    ssn: data.ssn!,
+                    email: data.email,
+                    password: data.password,
+                 }
+                 const newUser = await signUp(userData);
                  setUser(newUser);
             }
 
@@ -59,9 +74,6 @@ const AuthForm = ({type} : {type : string}) => {
                 })   
                 if(response) router.push('/')
             }
-
-
-
         } catch (error) {
             console.log(error);
         } finally {
@@ -100,11 +112,18 @@ const AuthForm = ({type} : {type : string}) => {
                     </h1>
                 </div>
         </header>
-        {user 
-         ? (<div className='felx flex-col gap-4'>
+            {user?  
+             ( 
+                <div className='felx flex-col gap-4'>
              {/* PlaidLink to link our Bank Account */}
-         </div>)
-         : (<div>
+             <PlaidLink
+              user = {user}
+              // Made Primary as same component will be used for 2 different things 
+              variant = "primary"
+             />
+         </div>
+           ): ( 
+            <div>
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                    {type === 'sign-up' && (
@@ -209,8 +228,8 @@ const AuthForm = ({type} : {type : string}) => {
                         {type === 'sign-in' ? 'Sign Up' : 'Sign In'}
                     </Link>
                 </footer>
-         </div>)
-        }
+         </div>
+          )} 
     </section>
   )
 }
